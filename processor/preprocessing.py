@@ -16,11 +16,71 @@ class CustomerBehaviorPreprocessor:
         """Load the raw CSV file."""
         self.df = pd.read_csv(self.input_path)
         return self
+    
+    def inspect (self):
+        print("\n=== Dataset Info ===")
+        print("Shape:", self.df.shape)
+        print("\nColumns:", list(self.df.columns))
+        print("\n=== Data Types ===")
+        print(self.df.dtypes)
+
+        print("\n=== Missing Values ===")
+        print(self.df.isnull().sum())
+
+        print("\n=== Sample Rows ===")
+        print(self.df.head())
+
+        return self
 
     def basic_cleaning(self):
         """Basic cleaning placeholder (real logic will be added later)."""
-        # We will add detailed cleaning logic in the next steps.
+         # Trim column names
+        self.df.columns = self.df.columns.str.strip()
+
+        # Ensure Boolean columns are proper booleans
+        if "Weekend" in self.df.columns:
+            self.df["Weekend"] = self.df["Weekend"].astype(bool)
+
+        if "Revenue" in self.df.columns:
+            self.df["Revenue"] = self.df["Revenue"].astype(bool)
+
+        # Remove duplicates
+        self.df = self.df.drop_duplicates()
+
         return self
+    
+    def validate(self):
+        """Validate the structure and logic of the cleaned data."""
+
+        expected_columns = [
+            "Administrative", "Administrative_Duration",
+            "Informational", "Informational_Duration",
+            "ProductRelated", "ProductRelated_Duration",
+            "BounceRates", "ExitRates",
+            "PageValues", "SpecialDay",
+            "Month", "OperatingSystems", "Browser",
+            "Region", "TrafficType",
+            "VisitorType", "Weekend", "Revenue"
+    ]
+
+        # Check columns
+        if list(self.df.columns) != expected_columns:
+            raise ValueError("Column mismatch detected!")
+
+        # Check missing values
+        if self.df.isnull().sum().sum() > 0:
+            raise ValueError("Missing values detected!")
+
+        # Validate booleans
+        if self.df["Weekend"].dtype != bool:
+            raise TypeError("Weekend column must be boolean.")
+
+        if self.df["Revenue"].dtype != bool:
+            raise TypeError("Revenue column must be boolean.")
+
+        print("Validation passed.")
+        return self
+
 
     def save(self):
         """Save the processed dataset."""
@@ -35,6 +95,8 @@ class CustomerBehaviorPreprocessor:
         """
         return (
             self.load_data()
+                .inspect()
                 .basic_cleaning()
+                .validate()
                 .save()
         )
