@@ -3,6 +3,9 @@ import sys
 from airflow import DAG
 from airflow.operators.bash import BashOperator
 from airflow.operators.python import PythonOperator
+import pandas as pd
+from airflow.providers.postgres.hooks.postgres import PostgresHook
+
 
 
 sys.path.append("/opt/airflow/processor")
@@ -19,6 +22,20 @@ def run_preprocessing():
         output_path=PROCESSED_DATA_PATH,
     )
     processor.run()
+
+def load_processed_to_db():
+    # 1) Read processed file
+    df = pd.read_csv(PROCESSED_DATA_PATH)
+
+    # 2) Connect to Postgres via Airflow Connection
+    hook = PostgresHook(postgres_conn_id="etl_postgres")
+    engine = hook.get_sqlalchemy_engine()
+
+    # 3) Load into table
+    table_name = "customer_behavior_clean"
+    df.to_sql(table_name, engine, if_exists="replace", index=False)
+
+    print(f"Loaded {len(df)} rows into {table_name}")
 
 with DAG(
     dag_id="customer_behavior_etl",
@@ -38,9 +55,11 @@ with DAG(
         python_callable=run_preprocessing,
     )
 
+    
+
     load_to_db = PythonOperator(
         task_id="load_to_db",
-        python_callable=lambda: None,
+        python_callable=load_processed_to_db,
     )
 
     check_raw_file >> preprocess_data >> load_to_db

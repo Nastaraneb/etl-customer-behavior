@@ -1,5 +1,6 @@
 import pandas as pd
 from pathlib import Path
+import sqlalchemy
 
 class CustomerBehaviorPreprocessor:
     """
@@ -80,8 +81,8 @@ class CustomerBehaviorPreprocessor:
 
         print("Validation passed.")
         return self
-
-
+    
+    
     def save(self):
         """Save the processed dataset."""
         self.output_path.parent.mkdir(parents=True, exist_ok=True)

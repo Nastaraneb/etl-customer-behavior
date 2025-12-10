@@ -1,0 +1,23 @@
+services:
+  etl-db:
+    image: postgres:15
+    container_name: etl_db
+    environment:
+      POSTGRES_USER: etl_user
+      POSTGRES_PASSWORD: etl_password
+      POSTGRES_DB: customer_behavior
+    ports:
+      - "5433:5432"
+    volumes:
+      - etl_db_data:/var/lib/postgresql/data
+    restart: always
+    networks:
+      - airflow
+
+volumes:
+  etl_db_data:
+
+networks:
+  airflow:
+    external: true
+    name: etl-customer-behavior_default
