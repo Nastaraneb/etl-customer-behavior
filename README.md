@@ -94,16 +94,18 @@ etl-customer-behavior/
 └── README.md
 
 ---
-# 🛠 **How to Run the Project (Step-by-Step)**
-1️⃣ Clone the Repository
+
+#  **How to Run the Project (Step-by-Step)**
+1️. Clone the Repository
 
 git clone https://github.com/<your-username>/etl-customer-behavior.git
 cd etl-customer-behavio
 
-2️⃣ Start the Airflow + Postgres Environment
+2️. Start the Airflow + Postgres Environment
 
 Make sure Docker Desktop is running.
 Then run:
+
 docker-compose up -d
 This command starts:
 Airflow Scheduler
@@ -113,7 +115,7 @@ Airflow Triggerer
 Redis
 Custom Postgres Database (etl_db)
 
-3️⃣ Access Airflow UI
+3️. Access Airflow UI
 
 Open:
 http://localhost:8080
@@ -121,21 +123,21 @@ Login credentials (default):
 Username: airflow
 Password: airflow
 
-4️⃣ Trigger the ETL Pipeline
+4️. Trigger the ETL Pipeline
 
 In Airflow:
 Find the DAG: customer_behavior_etl
 Toggle it ON
 Click Trigger DAG
 
-5️⃣ Verify Load in Postgres
+5️. Verify Load in Postgres
 
 Enter Postgres container:
 docker exec -it etl_db psql -U etl_user -d customer_behavior
 Query the loaded table:
 SELECT * FROM customer_behavior LIMIT 20;
 ---
-# 🧩 **Airflow DAG Overview**
+#  **Airflow DAG Overview**
 
  **The DAG coordinates the ETL process:**
 
@@ -153,7 +155,7 @@ Reads the processed CSV
 Connects to Airflow Connection etl_postgres
 Loads data into Postgres table customer_behavior
 
-# 🧪 **Preprocessing Logic (Python OOP)**
+#  **Preprocessing Logic (Python OOP)**
 
 All transformations are implemented inside:
 processor/preprocessing.py
@@ -168,7 +170,7 @@ Cleaning string categories
 Type casting
 Saving the final dataset
 ---
-# 🗄 **Postgres Integration**
+#  **Postgres Integration**
 
 The database service is defined in:
 
@@ -195,7 +197,7 @@ Loaded table name:
 
 customer_behavior
 ---
-#🙌 **Author**
+# **Author**
 
 Nastaran Eb
 Data Science & Data Engineering Enthusiast
@@ -204,4 +206,5 @@ Tampere, Finland
 #⭐ **Support**
 
 If you find this project useful, please consider giving it a GitHub Star!
+
 
