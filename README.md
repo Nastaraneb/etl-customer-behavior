@@ -93,6 +93,7 @@ etl-customer-behavior/
 │
 └── README.md
 
+---
 # 🛠 **How to Run the Project (Step-by-Step)**
 1️⃣ Clone the Repository
 
@@ -133,7 +134,7 @@ Enter Postgres container:
 docker exec -it etl_db psql -U etl_user -d customer_behavior
 Query the loaded table:
 SELECT * FROM customer_behavior LIMIT 20;
-
+---
 # 🧩 **Airflow DAG Overview**
 
  **The DAG coordinates the ETL process:**
@@ -166,7 +167,7 @@ Converting boolean fields
 Cleaning string categories
 Type casting
 Saving the final dataset
-
+---
 # 🗄 **Postgres Integration**
 
 The database service is defined in:
@@ -193,6 +194,7 @@ Port: 5432
 Loaded table name:
 
 customer_behavior
+---
 #🙌 **Author**
 
 Nastaran Eb
@@ -202,3 +204,4 @@ Tampere, Finland
 #⭐ **Support**
 
 If you find this project useful, please consider giving it a GitHub Star!
+
