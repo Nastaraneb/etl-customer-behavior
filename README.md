@@ -93,7 +93,9 @@ etl-customer-behavior/
 │
 └── README.md
 
----
+
+
+
 
 #  **How to Run the Project (Step-by-Step)**
 1️. Clone the Repository
@@ -206,5 +208,6 @@ Tampere, Finland
 #⭐ **Support**
 
 If you find this project useful, please consider giving it a GitHub Star!
+
 
 
