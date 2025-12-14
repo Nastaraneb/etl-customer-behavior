@@ -72,7 +72,6 @@ The ETL pipeline consists of three main steps:
 
 # 📁 **Project Structure**
 
-```bash
 etl-customer-behavior/
 │
 ├── dags/
@@ -97,6 +96,43 @@ etl-customer-behavior/
 
 # 🛠 **How to Run the Project (Step-by-Step)**
 1️. Clone the Repository
+
+git clone https://github.com/<your-username>/etl-customer-behavior.git
+cd etl-customer-behavior
+
+2️. Start the Airflow + Postgres Environment
+Make sure Docker Desktop is running.
+
+docker-compose up -d
+This command starts:
+Airflow Scheduler
+Airflow Webserver
+Airflow Worker
+Airflow Triggerer
+Redis
+Custom Postgres Database (etl_db)
+
+3.Access Airflow UI
+http://localhost:8080
+Login credentials:
+
+Username: airflow
+Password: airflow
+4️. Trigger the ETL Pipeline
+
+In Airflow:
+Find the DAG: customer_behavior_etl
+Turn it ON
+Click Trigger DAG
+
+5️. Verify Load in Postgres
+
+Enter the Postgres container:
+docker exec -it etl_db psql -U etl_user -d customer_behavior
+Query the table:
+SELECT * FROM customer_behavior LIMIT 20;
+
+
 
 
 
