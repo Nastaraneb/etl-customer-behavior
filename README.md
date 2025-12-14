@@ -71,26 +71,14 @@ The ETL pipeline consists of three main steps:
 ---
 
 # 📁 **Project Structure**
-
-etl-customer-behavior/
-│
-├── dags/
-│   └── customer_behavior_etl.py        # Airflow DAG
-│
-├── processor/
-│   ├── __init__.py
-│   └── preprocessing.py                # Python OOP preprocessing module
-│
-├── data/
-│   ├── raw/                            # Raw dataset
-│   │   └── online_shoppers_intention.csv
-│   └── processed/                      # Cleaned dataset
-│       └── online_shoppers_preprocessed.csv
-│
-├── docker-compose.yaml                 # Airflow core services
-├── docker-compose.override.yml         # Custom Postgres service + volumes
-│
-└── README.md
+- `dags/customer_behavior_etl.py` – Airflow DAG definition
+- `processor/__init__.py` – Package initializer
+- `processor/preprocessing.py` – Python OOP preprocessing module
+- `data/raw/online_shoppers_intention.csv` – Raw customer behavior dataset
+- `data/processed/online_shoppers_preprocessed.csv` – Cleaned / transformed dataset
+- `docker-compose.yaml` – Core Airflow services (scheduler, webserver, worker, triggerer, Redis, etc.)
+- `docker-compose.override.yml` – Custom Postgres service for the ETL pipeline
+- `README.md` – Project documentation
 
 ---
 
@@ -98,7 +86,7 @@ etl-customer-behavior/
 1️. Clone the Repository
 
 git clone https://github.com/<your-username>/etl-customer-behavior.git
-cd etl-customer-behavior
+`cd etl-customer-behavior`
 
 2️. Start the Airflow + Postgres Environment
 Make sure Docker Desktop is running.
@@ -131,6 +119,7 @@ Enter the Postgres container:
 docker exec -it etl_db psql -U etl_user -d customer_behavior
 Query the table:
 SELECT * FROM customer_behavior LIMIT 20;
+
 
 
 
