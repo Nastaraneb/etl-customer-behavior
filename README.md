@@ -99,38 +99,57 @@ etl-customer-behavior/
 1️. Clone the Repository
 
 git clone https://github.com/<your-username>/etl-customer-behavior.git
+
 `cd etl-customer-behavior`
 
 2️. Start the Airflow + Postgres Environment
+
 Make sure Docker Desktop is running.
 
 `docker-compose up -d`
+
 This command starts:
+
 Airflow Scheduler
+
 Airflow Webserver
+
 Airflow Worker
+
 Airflow Triggerer
+
 Redis
+
 Custom Postgres Database (etl_db)
 
 3.Access Airflow UI
+
 http://localhost:8080
+
 Login credentials:
 
 Username: airflow
+
 Password: airflow
+
 4️. Trigger the ETL Pipeline
 
 In Airflow:
+
 Find the DAG: customer_behavior_etl
+
 Turn it ON
+
 Click Trigger DAG
 
 5️. Verify Load in Postgres
 
 Enter the Postgres container:
+
 `docker exec -it etl_db psql -U etl_user -d customer_behavior`
+
 Query the table:
+
 `SELECT * FROM customer_behavior LIMIT 20;`
 
 ---
@@ -138,24 +157,31 @@ Query the table:
 # 🧩 **Airflow DAG Overview**
 
 The DAG coordinates the ETL process:
+
 `check_raw_file → preprocess_data → load_to_db`
 
 **check_raw_file**
 
 Simple check to ensure dataset exists
+
 Uses BashOperator
 
 **preprocess_data**
 
 Runs the OOP preprocessing pipeline
+
 Cleans data
+
 Validates columns
+
 Saves clean CSV to /data/processed
 
 **load_to_db**
 
 Reads the processed CSV
+
 Connects to Airflow Connection etl_postgres
+
 Loads data into Postgres table customer_behavior
 
 ---
@@ -163,34 +189,49 @@ Loads data into Postgres table customer_behavior
 # 🧪 **Preprocessing Logic (Python OOP)**
 
 All transformations are implemented inside:
+
 `processor/preprocessing.py`
+
 **Key Features:**
 
   OOP class: CustomerBehaviorPreprocessor
+  
   Ensures cleaner, modular, testable code
+  
   Steps include:
   
-    Handling missing values
-    Converting boolean fields
-    Cleaning string categories
-    Type casting
-    Saving the final dataset
+  Handling missing values
+  
+  Converting boolean fields
+  
+  Cleaning string categories
+  
+  Type casting
+  
+  Saving the final dataset
 
 ---
 
 # 🗄 **Postgres Integration**
 
 The database service is defined in:
+
 `docker-compose.override.yml`
 
 Custom database created:
 
 DB name: customer_behavior
+
 User: etl_user
+
 Password: etl_password
+
 Host (inside Airflow): etl_db
+
 Port: 5432
+
 Airflow connects via:
+
 ```bash
 Connection ID: etl_postgres
 Type: Postgres
@@ -199,6 +240,13 @@ User: etl_user
 Password: etl_password
 Port: 5432
 ```
+---
+
+# 🙌 **Author**
+
+**Nastaran Ebrahimi**
+Data Science & Data Engineering Enthusiast
+Tampere, Finland
 
 
 
